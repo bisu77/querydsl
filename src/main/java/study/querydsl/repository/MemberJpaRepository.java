@@ -1,17 +1,13 @@
 package study.querydsl.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import study.querydsl.dto.MemberSearchCond;
 import study.querydsl.dto.MemberTeamDto;
 import study.querydsl.dto.QMemberTeamDto;
 import study.querydsl.entity.Member;
-import study.querydsl.entity.QMember;
-import study.querydsl.entity.QTeam;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -104,7 +100,7 @@ public class MemberJpaRepository {
                 .leftJoin(member.team, team)
                 .where(
                         usernameEq(cond.getUsername()),
-                        teamnameEq(cond.getTeamName()),
+                        teamNameEq(cond.getTeamName()),
                         ageGoe(cond.getAgeGoe()),
                         ageLoe(cond.getAgeLoe()) )
                 .fetch();
@@ -114,7 +110,7 @@ public class MemberJpaRepository {
         return hasText(username) ? member.username.eq(username) : null;
     }
 
-    private BooleanExpression teamnameEq(String teamName) {
+    private BooleanExpression teamNameEq(String teamName) {
         return hasText(teamName) ? team.name.eq(teamName) : null;
     }
 
